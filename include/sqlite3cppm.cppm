@@ -22,9 +22,9 @@ SQLITE3CPPM_EXPORT constexpr const char SOURCE_ID[] = SQLITE_SOURCE_ID;
 using db = sqlite3_db;
 using stmt = sqlite3_stmt;
 
-SQLITE3CPPM_EXPORT constexpr const char (&version)[] = ::sqlite3_version;
-SQLITE3CPPM_EXPORT constexpr char *&temp_directory = ::sqlite3_temp_directory;
-SQLITE3CPPM_EXPORT constexpr char *&data_directory = ::sqlite3_data_directory;
+SQLITE3CPPM_EXPORT const char (&version)[] = ::sqlite3_version;
+SQLITE3CPPM_EXPORT char *&temp_directory = ::sqlite3_temp_directory;
+SQLITE3CPPM_EXPORT char *&data_directory = ::sqlite3_data_directory;
 
 [[nodiscard]]
 SQLITE3CPPM_EXPORT const char* libversion() noexcept

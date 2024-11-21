@@ -3,4 +3,4 @@
 	url = git@github.com:google/googletest.git
 [submodule "extern/sqlite-amalgamation-cmake-buildsystem"]
 	path = extern/sqlite-amalgamation-cmake-buildsystem
-	url = git@github.com:jlmjanssen/sqlite-amalgamation-cmake-buildsystem
+	url = git@github.com:speeltuin/sqlite-amalgamation-cmake-buildsystem.git

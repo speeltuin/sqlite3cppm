@@ -32,7 +32,7 @@ include(FetchContent)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
 
-option(SQLITE_BUILD_SHELL "" ON)
+option(SQLITE_BUILD_SHELL "" OFF)
 add_subdirectory(extern/sqlite-amalgamation-cmake-buildsystem)
 
 add_library(sqlite3cppm)
