@@ -1,0 +1,32 @@
+name: Continuous Integration
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2022]
+
+    runs-on: ${{matrix.os}}
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    - name: Install LLVM 18
+      if: ${{matrix.os == 'macos-15'}}
+      run: echo "PATH=$(brew --prefix llvm@18)/bin:$PATH" >> $GITHUB_ENV
+
+    - name: "Set up Developer Command Prompt"
+      if: ${{matrix.os == 'windows-2022'}}
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Install Ninja
+      uses: seanmiddleditch/gha-setup-ninja@v5
+
+    - name: Run Continuous Integration workflow
+      run: cmake --workflow --preset ci --fresh

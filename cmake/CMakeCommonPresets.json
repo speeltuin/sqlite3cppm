@@ -1,0 +1,163 @@
+{
+  "version": 9,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 30,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "diagnostics-default",
+      "hidden": true,
+      "warnings": {
+        "dev": false,
+        "deprecated": false,
+        "uninitialized": false,
+        "unusedCli": false,
+        "systemVars": false
+      },
+      "errors": {
+        "dev": false,
+        "deprecated": false
+      },
+      "debug": {
+        "output": false,
+        "tryCompile": false,
+        "find": false
+      },
+      "cacheVariables": {
+        "CMAKE_MESSAGE_LOG_LEVEL": "WARNING",
+        "CMAKE_REQUIRED_QUIET": true
+      }
+    },
+    {
+      "name": "diagnostics-pedantic",
+      "hidden": true,
+      "inherits": "diagnostics-default",
+      "warnings": {
+        "dev": true,
+        "deprecated": true,
+        "uninitialized": true,
+        "unusedCli": true
+      },
+      "cacheVariables": {
+        "CMAKE_MESSAGE_LOG_LEVEL": "STATUS",
+        "CMAKE_REQUIRED_QUIET": false
+      }
+    },
+    {
+      "name": "diagnostics-errors",
+      "hidden": true,
+      "inherits": "diagnostics-pedantic",
+      "errors": {
+        "dev": true,
+        "deprecated": true
+      }
+    },
+    {
+      "name": "diagnostics-debug",
+      "hidden": true,
+      "inherits": "diagnostics-pedantic",
+      "debug": {
+        "output": true,
+        "tryCompile": true,
+        "find": true
+      },
+      "cacheVariables": {
+        "CMAKE_MESSAGE_LOG_LEVEL": "DEBUG"
+      }
+    },
+    {
+      "name": "language-std-c17",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_STANDARD": "17",
+        "CMAKE_C_STANDARD_REQUIRED": true,
+        "CMAKE_C_EXTENSIONS": false
+      }
+    },
+    {
+      "name": "language-std-c++20",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_STANDARD": "20",
+        "CMAKE_CXX_STANDARD_REQUIRED": true,
+        "CMAKE_CXX_EXTENSIONS": false,
+        "CMAKE_CXX_SCAN_FOR_MODULES": true
+      }
+    },
+    {
+      "name": "compiler-clang",
+      "hidden": true,
+      "environment": {
+        "CC": "clang",
+        "CXX": "clang++"
+      }
+    },
+    {
+      "name": "compiler-msvc",
+      "hidden": true,
+      "environment": {
+        "CC": "cl.exe",
+        "CXX": "cl.exe"
+      }
+    },
+    {
+      "name": "generator-ninja-multi",
+      "hidden": true,
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "out/build",
+      "installDir": "out/stage"
+    },
+    {
+      "name": "configure-common",
+      "hidden": true,
+      "inherits": [
+        "diagnostics-default"
+      ]
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-common",
+      "hidden": true,
+      "jobs": 8,
+      "targets": "all",
+      "configuration": "Release",
+      "cleanFirst": false,
+      "verbose": false
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test-common",
+      "hidden": true,
+      "configuration": "Release",
+      "output": {
+        "shortProgress": false,
+        "verbosity": "default",
+        "debug": false,
+        "outputOnFailure": true,
+        "quiet": false
+      },
+      "execution": {
+        "stopOnFailure": false,
+        "jobs": 8,
+        "timeout": 300,
+        "noTestsAction": "ignore"
+      }
+    }
+  ],
+  "packagePresets": [
+    {
+      "name": "package-common",
+      "hidden": true,
+      "output": {
+        "debug": false,
+        "verbose": false
+      },
+      "configurations": ["Release"],
+      "generators": ["ZIP"]
+    }
+  ]
+}

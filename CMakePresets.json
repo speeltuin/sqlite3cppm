@@ -1,0 +1,164 @@
+{
+  "version": 9,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 30,
+    "patch": 0
+  },
+  "include": [
+    "cmake/CMakePresets-${hostSystemName}.json"
+  ],
+  "configurePresets": [
+    {
+      "name": "package-googletest",
+      "hidden": true,
+      "cacheVariables": {
+        "BUILD_GMOCK": false,
+        "INSTALL_GTEST": false
+      }
+    },
+    {
+      "name": "package-sqlite3",
+      "hidden": true,
+      "cacheVariables": {
+        "SQLITE_BUILD_SHELL": false,
+        "SQLITE_DEFAULT_MEMSTATUS": "0",
+        "SQLITE_DEFAULT_WAL_SYNCHRONOUS": "1",
+        "SQLITE_DQS": "0",
+        "SQLITE_ENABLE_API_ARMOR": true,
+        "SQLITE_ENABLE_COLUMN_METADATA": true,
+        "SQLITE_LIKE_DOESNT_MATCH_BLOBS": true,
+        "SQLITE_MAX_EXPR_DEPTH": "0",
+        "SQLITE_OMIT_DEPRECATED": true,
+        "SQLITE_OMIT_SHARED_CACHE": true,
+        "SQLITE_THREADSAFE": "2",
+        "SQLITE_USE_ALLOCA": true
+      }
+    },
+    {
+      "name": "ci",
+      "inherits": [
+        "configure-host",
+        "package-googletest",
+        "package-sqlite3"
+      ],
+      "cacheVariables": {
+        "BUILD_SHARED_LIBS": true,
+        "CMAKE_EXPORT_COMPILE_COMMANDS": true
+      }
+    },
+    {
+      "name": "cov",
+      "inherits": [
+        "configure-host",
+        "package-googletest",
+        "package-sqlite3"
+      ],
+      "binaryDir": "out/coverage",
+      "cacheVariables": {
+        "BUILD_SHARED_LIBS": false,
+        "BUILD_WITH_COVERAGE": true
+      },
+      "environment": {
+        "LLVM_PROFILE_FILE": "pid-%p.profraw"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "ci-debug",
+      "inherits": "build-common",
+      "configurePreset": "ci",
+      "configuration": "Debug"
+    },
+    {
+      "name": "ci-release",
+      "inherits": "build-common",
+      "configurePreset": "ci",
+      "configuration": "Release"
+    },
+    {
+      "name": "cov",
+      "inherits": "build-common",
+      "configurePreset": "cov",
+      "configuration": "Coverage"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "ci-debug",
+      "inherits": "test-common",
+      "configurePreset": "ci",
+      "configuration": "Debug"
+    },
+    {
+      "name": "ci-release",
+      "inherits": "test-common",
+      "configurePreset": "ci",
+      "configuration": "Release"
+    },
+    {
+      "name": "cov",
+      "inherits": "test-common",
+      "configurePreset": "cov",
+      "configuration": "Coverage"
+    }
+  ],
+  "packagePresets": [
+    {
+      "name": "ci",
+      "inherits": "package-common",
+      "configurePreset": "ci",
+      "configurations": ["Debug", "Release"]
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "ci",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "ci"
+        },
+        {
+          "type": "build",
+          "name": "ci-debug"
+        },
+        {
+          "type": "test",
+          "name": "ci-debug"
+        },
+        {
+          "type": "build",
+          "name": "ci-release"
+        },
+        {
+          "type": "test",
+          "name": "ci-release"
+        },
+        {
+          "type": "package",
+          "name": "ci"
+        }
+      ]
+    },
+    {
+      "name": "cov",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "cov"
+        },
+        {
+          "type": "build",
+          "name": "cov"
+        },
+        {
+          "type": "test",
+          "name": "cov"
+        }
+      ]
+    }
+
+  ]
+}
