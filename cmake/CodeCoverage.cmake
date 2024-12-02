@@ -11,8 +11,8 @@ if(BUILD_WITH_COVERAGE)
             Coverage
             POSTFIX -cov
             BASED_ON Debug
-            C_FLAGS -O0 -fprofile-instr-generate -fcoverage-mapping
-            CXX_FLAGS -O0 -fprofile-instr-generate -fcoverage-mapping
+            C_FLAGS -O0 -fprofile-instr-generate -fcoverage-mapping -D_COVERAGE
+            CXX_FLAGS -O0 -fprofile-instr-generate -fcoverage-mapping -D_COVERAGE
             EXE_LINKER_FLAGS -fprofile-instr-generate -fcoverage-mapping
             SHARED_LINKER_FLAGS -fprofile-instr-generate -fcoverage-mapping
         )
